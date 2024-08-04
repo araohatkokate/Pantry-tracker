@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useState, useEffect } from 'react'
 import { firestore } from "@/firebase"
-import { Box, Modal, Typography } from "@mui/material";
+import { Box, Modal, Typography, Stack, Button } from "@mui/material";
 import { collection, getDoc, getDocs, query, setDoc } from "firebase/firestore";
 
 export default function Home() {
@@ -69,7 +69,38 @@ export default function Home() {
   return (
   <Box width="100vw" height="100vh" display="flex" justifyContent="center" alignItems="center" gap={2}>
     <Modal open={open} onClose={handClose}>
-      <Box position="absolute" top="50%" left="50%" transform="translate(-50%,-50%)">
+      <Box 
+      position="absolute" 
+      top="50%" 
+      left="50%"  
+      width={400} bgcolor="white" 
+      border="2px solid #000" 
+      boxShadow={24} 
+      p={4} 
+      display="flex" 
+      flexDirection="column" 
+      gap={3}
+      sx={{   
+      transform:"translate(-50%,-50%)"
+      }}
+      >
+        <Typography variant="h6">Add Item</Typography>
+        <Stack width="100%" direction="row" spacing={2}>
+          <TextField
+          variant = 'outlined'
+          fullwidth
+          value = {itemName}
+          onChange={(e)=>{
+            setitemName(e.target.value)
+          }}
+          />
+          <Button variant="outlined" onClick={()=>{
+            additem(itemName)
+            setitemName('')
+            handClose()
+          }}
+          ></Button>
+        </Stack>
       </Box>
     </Modal>
     <Typography variant="h1">Pantry Tracker</Typography>
