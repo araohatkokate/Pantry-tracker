@@ -2,8 +2,8 @@
 import Image from "next/image";
 import { useState, useEffect } from 'react'
 import { firestore } from "@/firebase"
-import { Box, Modal, Typography, Stack, Button } from "@mui/material";
-import { collection, getDoc, getDocs, query, setDoc } from "firebase/firestore";
+import { Box, Modal, Typography, Stack, Button, TextField } from "@mui/material";
+import { collection, doc, getDoc, getDocs, query, setDoc } from "firebase/firestore";
 
 export default function Home() {
   const [inventory, setinventory] = useState([])
@@ -99,11 +99,19 @@ export default function Home() {
             setitemName('')
             handClose()
           }}
-          ></Button>
+          >
+            Add
+          </Button>
         </Stack>
       </Box>
     </Modal>
-    <Typography variant="h1">Pantry Tracker</Typography>
+    <Button variant = "contained" onClick={()=>{
+      handleOpen()
+    }}
+    >
+    Add new item
+    </Button>
+   <Box border="1px solid #333"></Box>
   </Box> 
   )
 }
