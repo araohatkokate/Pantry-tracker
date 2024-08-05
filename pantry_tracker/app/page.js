@@ -86,38 +86,17 @@ export default function Home() {
   const handleClose = () => setopen(false)
 
   return (
-    <Box width="100vw" height="100vh" display="flex" flexDirection="column" alignItems="center" justifyContent="center">
-      <Box width="800px" display="flex" flexDirection="column" alignItems="center" gap={2}>
+    <Box width="100vw" height="100vh" display="flex" flexDirection="column" alignItems="center" justifyContent="flex-start">
+      <Box width="100%" display="flex" justifyContent="space-between" alignItems="center" padding={2}>
         <SearchAppBar onSearchChange={handleSearchChange} />
-        {user ? (
-          <>
-            <Box position="absolute" top={16} right={16}>
-              <Button variant="outlined" onClick={logOut}>Log Out</Button>
-            </Box>
-            <Box width="800px" border="1px solid #333">
-              <Box width="800px" height="100px" bgcolor="#ADD8E6" display="flex" alignItems="center" justifyContent="center">
-                <Typography variant="h2" color="#333">Pantry Items</Typography>
-              </Box>
-              <Stack width="800px" height="300px" spacing={2} overflow="auto">
-                {filteredInventory.map(({ name, quantity }) => (
-                  <Box key={name} display="flex" alignItems="center" justifyContent="space-between" padding={5}>
-                    <Typography variant="h3" textAlign="center">{name.charAt(0).toUpperCase() + name.slice(1)}</Typography>
-                    <Typography variant="h3" textAlign="center">{quantity}</Typography>
-                    <Stack direction="row" spacing={2}>
-                      <Button variant="contained" onClick={() => additem(name)}>Add</Button>
-                      <Button variant="contained" onClick={() => removeitem(name)}>Remove</Button>
-                    </Stack>
-                  </Box>
-                ))}
-              </Stack>
-            </Box>
-          </>
-        ) : (
-          <Box position="absolute" top={16} right={16}>
-            <Button variant="contained" onClick={signInWithGoogle}>Sign In with Google</Button>
-          </Box>
-        )}
-        <Button variant="contained" onClick={handleOpen}>Add new item</Button>
+        <Button variant="contained" onClick={user ? logOut : signInWithGoogle}>
+          {user ? "Log Out" : "Sign In with Google"}
+        </Button>
+      </Box>
+      <Box width="800px" display="flex" flexDirection="column" alignItems="center" gap={2}>
+        <Button variant="contained" onClick={handleOpen}>
+          Add new item
+        </Button>
         <Modal open={open} onClose={handleClose}>
           <Box
             position="absolute"
@@ -131,26 +110,63 @@ export default function Home() {
             display="flex"
             flexDirection="column"
             gap={3}
-            sx={{ transform: "translate(-50%,-50%)" }}
+            sx={{
+              transform: "translate(-50%,-50%)",
+            }}
           >
             <Typography variant="h6">Add Item</Typography>
             <Stack direction="row" spacing={2}>
               <TextField
-                variant='outlined'
+                variant="outlined"
                 fullWidth
                 value={itemName}
                 onChange={(e) => setitemName(e.target.value)}
               />
-              <Button variant="outlined" onClick={() => {
-                additem(itemName);
-                setitemName('');
-                handleClose();
-              }}>
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  additem(itemName);
+                  setitemName('');
+                  handleClose();
+                }}
+              >
                 Add
               </Button>
             </Stack>
           </Box>
         </Modal>
+        <Box border="1px solid #333" width="100%" mt={2}>
+          <Box width="100%" bgcolor="#ADD8E6" display="flex" alignItems="center" justifyContent="center" p={2}>
+            <Typography variant="h4" color="#333">
+              Pantry Items
+            </Typography>
+          </Box>
+          <Box display="flex" flexDirection="column" width="100%" p={2}>
+            <Box display="flex" justifyContent="space-between" padding={1} borderBottom="1px solid #333">
+              <Typography variant="h6" width="20%">Number</Typography>
+              <Typography variant="h6" width="40%">Items</Typography>
+              <Typography variant="h6" width="20%" textAlign="center">Quantity</Typography>
+              <Typography variant="h6" width="20%" textAlign="center">Edit</Typography>
+            </Box>
+            <Stack width="100%" spacing={2} overflow="auto" maxHeight="400px">
+              {filteredInventory.map(({ name, quantity }, index) => (
+                <Box key={name} display="flex" justifyContent="space-between" alignItems="center" padding={1} borderBottom="1px solid #333">
+                  <Typography variant="body1" width="20%">{index + 1}</Typography>
+                  <Typography variant="body1" width="40%">{name.charAt(0).toUpperCase() + name.slice(1)}</Typography>
+                  <Typography variant="body1" width="20%" textAlign="center">{quantity}</Typography>
+                  <Stack direction="row" spacing={1} width="20%" justifyContent="center">
+                    <Button variant="contained" onClick={() => additem(name)}>
+                      Add
+                    </Button>
+                    <Button variant="contained" onClick={() => removeitem(name)}>
+                      Remove
+                    </Button>
+                  </Stack>
+                </Box>
+              ))}
+            </Stack>
+          </Box>
+        </Box>
       </Box>
     </Box>
   );

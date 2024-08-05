@@ -3,7 +3,7 @@ import { auth, GoogleAuthProvider, signInWithPopup, signOut } from "@/app/fireba
 
 export const signInWithGoogle = async () => {
   try {
-    const result = await signInWithPopup(auth, googleProvider);
+    const result = await signInWithPopup(auth, GoogleAuthProvider);
     // The signed-in user info.
     const user = result.user;
     console.log('User signed in: ', user);
