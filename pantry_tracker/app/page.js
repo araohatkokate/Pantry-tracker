@@ -2,13 +2,19 @@
 import Image from "next/image";
 import { useState, useEffect } from 'react'
 import { firestore } from "@/firebase"
-import { Box, Modal, Typography, Stack, Button, TextField } from "@mui/material";
+import { Box, Modal, Typography, Stack, Button, TextField, createTheme } from "@mui/material";
 import { collection, doc, getDoc, getDocs, query, setDoc, deleteDoc } from "firebase/firestore";
+import SearchAppBar from "./searchbar";
+/*import { createTheme, ThemeProvider } from "@mui/material"*/
+
+/*const theme = createTheme()*/
 
 export default function Home() {
   const [inventory, setinventory] = useState([])
+  const [filteredInventory, setFilteredInventory] = useState([])
   const [open, setopen] = useState(false)
   const [itemName, setitemName] = useState('')
+  const [searchQuery, setSearchQuery] = useState('')
 
   const updateinventory = async () => {
     const snapshot = query(collection(firestore, 'inventory'))
