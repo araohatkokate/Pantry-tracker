@@ -122,7 +122,7 @@ export default function Home() {
         <Box border="1px solid #333">
           <Box width="800px" height="100px" bgcolor="#ADD8E6" display="flex" alignItems="center" justifyContent="center">
             <Typography variant="h2" color="#333">
-              Inventory Items
+              Pantry Items
             </Typography>
           </Box>
           <Stack width="800px" height="300px" spacing={2} overflow="auto">
@@ -135,7 +135,7 @@ export default function Home() {
                   {quantity}
                 </Typography>
                 <Stack direction="row" spacing={2}>
-                <Button variant="contained" onClick={() => additemitem(name)}>
+                <Button variant="contained" onClick={() => additem(name)}>
                   Add
                 </Button>
                 <Button variant="contained" onClick={() => removeitem(name)}>
