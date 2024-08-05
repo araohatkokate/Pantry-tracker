@@ -91,7 +91,9 @@ export default function Home() {
         <SearchAppBar onSearchChange={handleSearchChange} />
         {user ? (
           <>
-            <Button variant="outlined" onClick={logOut}>Log Out</Button>
+            <Box position="absolute" top={16} right={16}>
+              <Button variant="outlined" onClick={logOut}>Log Out</Button>
+            </Box>
             <Box width="800px" border="1px solid #333">
               <Box width="800px" height="100px" bgcolor="#ADD8E6" display="flex" alignItems="center" justifyContent="center">
                 <Typography variant="h2" color="#333">Pantry Items</Typography>
@@ -111,7 +113,9 @@ export default function Home() {
             </Box>
           </>
         ) : (
-          <Button variant="contained" onClick={signInWithGoogle}>Sign In with Google</Button>
+          <Box position="absolute" top={16} right={16}>
+            <Button variant="contained" onClick={signInWithGoogle}>Sign In with Google</Button>
+          </Box>
         )}
         <Button variant="contained" onClick={handleOpen}>Add new item</Button>
         <Modal open={open} onClose={handleClose}>
