@@ -53,7 +53,7 @@ export default function SearchAppBar({onSearchChange}) {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between'}}>
           <IconButton
             size="large"
             edge="start"
@@ -68,7 +68,7 @@ export default function SearchAppBar({onSearchChange}) {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
-            Pantry Tracker
+            PANTRY TRACKER
           </Typography>
           <Search>
             <SearchIconWrapper>

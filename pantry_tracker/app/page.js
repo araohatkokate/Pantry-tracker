@@ -88,10 +88,14 @@ export default function Home() {
   return (
     <Box width="100vw" height="100vh" display="flex" flexDirection="column" alignItems="center" justifyContent="flex-start">
       <Box width="100%" display="flex" justifyContent="space-between" alignItems="center" padding={2}>
-        <SearchAppBar onSearchChange={handleSearchChange} />
-        <Button variant="contained" onClick={user ? logOut : signInWithGoogle}>
-          {user ? "Log Out" : "Sign In with Google"}
-        </Button>
+        <Box sx={{ flexGrow: 1 }}>
+          <SearchAppBar onSearchChange={handleSearchChange} />
+        </Box>
+        <Box sx={{ ml: 2 }}>
+          <Button variant="contained" onClick={user ? logOut : signInWithGoogle}>
+            {user ? "Log Out" : "Sign In with Google"}
+          </Button>
+        </Box>
       </Box>
       <Box width="800px" display="flex" flexDirection="column" alignItems="center" gap={2}>
         <Button variant="contained" onClick={handleOpen}>
@@ -107,8 +111,7 @@ export default function Home() {
             border="2px solid #000"
             boxShadow={24}
             p={4}
-            display="flex"
-            flexDirection="column"
+            display="flex" flexDirection="column"
             gap={3}
             sx={{
               transform: "translate(-50%,-50%)",
@@ -138,7 +141,7 @@ export default function Home() {
         <Box border="1px solid #333" width="100%" mt={2}>
           <Box width="100%" bgcolor="#ADD8E6" display="flex" alignItems="center" justifyContent="center" p={2}>
             <Typography variant="h4" color="#333">
-              Pantry Items
+              CURRENT INVENTORY
             </Typography>
           </Box>
           <Box display="flex" flexDirection="column" width="100%" p={2}>
