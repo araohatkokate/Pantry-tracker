@@ -52,7 +52,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function SearchAppBar({onSearchChange}) {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" color="primary">
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between'}}>
           <IconButton
             size="large"
@@ -66,7 +66,7 @@ export default function SearchAppBar({onSearchChange}) {
             variant="h6"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' }}}
           >
             PANTRY TRACKER
           </Typography>

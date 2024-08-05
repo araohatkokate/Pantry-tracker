@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useState, useEffect } from 'react'
 import { firestore } from "./firebase/firebaseconfig";
-import { Box, Modal, Typography, Stack, Button, TextField, createTheme } from "@mui/material";
+import { Box, Modal, Typography, Stack, Button, TextField } from "@mui/material";
 import { collection, doc, getDoc, getDocs, query, setDoc, deleteDoc } from "firebase/firestore";
 import SearchAppBar from "./searchbar";
 import { auth } from "./firebase/firebaseconfig";
@@ -86,19 +86,19 @@ export default function Home() {
   const handleClose = () => setopen(false)
 
   return (
-    <Box width="100vw" height="100vh" display="flex" flexDirection="column" alignItems="center" justifyContent="flex-start">
+    <Box width="100vw" height="100vh" display="flex" flexDirection="column" alignItems="center" justifyContent="flex-start" bgcolor="#212121">
       <Box width="100%" display="flex" justifyContent="space-between" alignItems="center" padding={2}>
         <Box sx={{ flexGrow: 1 }}>
           <SearchAppBar onSearchChange={handleSearchChange} />
         </Box>
         <Box sx={{ ml: 2 }}>
-          <Button variant="contained" onClick={user ? logOut : signInWithGoogle}>
+          <Button variant="contained" color="primary" onClick={user ? logOut : signInWithGoogle}>
             {user ? "Log Out" : "Sign In with Google"}
           </Button>
         </Box>
       </Box>
       <Box width="800px" display="flex" flexDirection="column" alignItems="center" gap={2}>
-        <Button variant="contained" onClick={handleOpen}>
+        <Button variant="contained" color="primary" onClick={handleOpen}>
           Add new item
         </Button>
         <Modal open={open} onClose={handleClose}>
@@ -107,7 +107,7 @@ export default function Home() {
             top="50%"
             left="50%"
             width={400}
-            bgcolor="white"
+            bgcolor="#ffffff"
             border="2px solid #000"
             boxShadow={24}
             p={4}
@@ -117,7 +117,7 @@ export default function Home() {
               transform: "translate(-50%,-50%)",
             }}
           >
-            <Typography variant="h6">Add Item</Typography>
+            <Typography variant="h6" color="#00e676">Add Item</Typography>
             <Stack direction="row" spacing={2}>
               <TextField
                 variant="outlined"
@@ -126,7 +126,8 @@ export default function Home() {
                 onChange={(e) => setitemName(e.target.value)}
               />
               <Button
-                variant="outlined"
+                variant="contained"
+                color="primary"
                 onClick={() => {
                   additem(itemName);
                   setitemName('');
@@ -139,29 +140,29 @@ export default function Home() {
           </Box>
         </Modal>
         <Box border="1px solid #333" width="100%" mt={2}>
-          <Box width="100%" bgcolor="#ADD8E6" display="flex" alignItems="center" justifyContent="center" p={2}>
-            <Typography variant="h4" color="#333">
+          <Box width="100%" bgcolor="#212121" display="flex" alignItems="center" justifyContent="center" p={2}>
+            <Typography variant="h4" color="#00e676">
               CURRENT INVENTORY
             </Typography>
           </Box>
           <Box display="flex" flexDirection="column" width="100%" p={2}>
             <Box display="flex" justifyContent="space-between" padding={1} borderBottom="1px solid #333">
-              <Typography variant="h6" width="20%">Number</Typography>
-              <Typography variant="h6" width="40%">Items</Typography>
-              <Typography variant="h6" width="20%" textAlign="center">Quantity</Typography>
-              <Typography variant="h6" width="20%" textAlign="center">Edit</Typography>
+              <Typography variant="h6" width="20%" color="#00e676">Number</Typography>
+              <Typography variant="h6" width="40%" color="#00e676">Items</Typography>
+              <Typography variant="h6" width="20%" textAlign="center" color="#00e676">Quantity</Typography>
+              <Typography variant="h6" width="20%" textAlign="center" color="#00e676">Edit</Typography>
             </Box>
             <Stack width="100%" spacing={2} overflow="auto" maxHeight="400px">
               {filteredInventory.map(({ name, quantity }, index) => (
                 <Box key={name} display="flex" justifyContent="space-between" alignItems="center" padding={1} borderBottom="1px solid #333">
-                  <Typography variant="body1" width="20%">{index + 1}</Typography>
-                  <Typography variant="body1" width="40%">{name.charAt(0).toUpperCase() + name.slice(1)}</Typography>
-                  <Typography variant="body1" width="20%" textAlign="center">{quantity}</Typography>
+                  <Typography variant="body1" width="20%" color="#00e676">{index + 1}</Typography>
+                  <Typography variant="body1" width="40%" color="#00e676">{name.charAt(0).toUpperCase() + name.slice(1)}</Typography>
+                  <Typography variant="body1" width="20%" textAlign="center" color="#00e676">{quantity}</Typography>
                   <Stack direction="row" spacing={1} width="20%" justifyContent="center">
-                    <Button variant="contained" onClick={() => additem(name)}>
+                    <Button variant="contained" color="primary" onClick={() => additem(name)}>
                       Add
                     </Button>
-                    <Button variant="contained" onClick={() => removeitem(name)}>
+                    <Button variant="contained" color="primary" onClick={() => removeitem(name)}>
                       Remove
                     </Button>
                   </Stack>
