@@ -1,11 +1,11 @@
 "use client";
 import Image from "next/image";
 import { useState, useEffect } from 'react'
-import { firestore } from "./firebase/firebase";
+import { firestore } from "./firebase/firebaseconfig";
 import { Box, Modal, Typography, Stack, Button, TextField, createTheme } from "@mui/material";
 import { collection, doc, getDoc, getDocs, query, setDoc, deleteDoc } from "firebase/firestore";
 import SearchAppBar from "./searchbar";
-import { auth } from "./firebase/firebase";
+import { auth } from "./firebase/firebaseconfig";
 import { signInWithGoogle, logOut } from "./authentication/auth";
 /*import { createTheme, ThemeProvider } from "@mui/material"*/
 
