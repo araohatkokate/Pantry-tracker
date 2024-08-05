@@ -61,7 +61,6 @@ export default function SearchAppBar() {
             aria-label="open drawer"
             sx={{ mr: 2 }}
           >
-            <MenuIcon />
           </IconButton>
           <Typography
             variant="h6"
@@ -69,11 +68,10 @@ export default function SearchAppBar() {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
-            MUI
+            Pantry Tracker
           </Typography>
           <Search>
             <SearchIconWrapper>
-              <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
