@@ -1,88 +1,85 @@
 "use client";
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 import { firestore } from "./firebase/firebaseconfig";
 import { Box, Modal, Typography, Stack, Button, TextField } from "@mui/material";
 import { collection, doc, getDoc, getDocs, query, setDoc, deleteDoc } from "firebase/firestore";
 import SearchAppBar from "./searchbar";
 import { auth } from "./firebase/firebaseconfig";
-import { signInWithGoogle, logOut } from "./authentication/auth";    
-/*import { createTheme, ThemeProvider } from "@mui/material"*/
+import { signInWithGoogle, logOut } from "./authentication/auth";
+import UploadPhoto from "./UploadPhoto";
  
-/*const theme = createTheme()*/
  
 export default function Home() {
-  const [inventory, setinventory] = useState([])
-  const [filteredInventory, setFilteredInventory] = useState([])
-  const [open, setopen] = useState(false)
-  const [itemName, setitemName] = useState('')
-  const [user, setUser] = useState(null)
+  const [inventory, setInventory] = useState([]);
+  const [filteredInventory, setFilteredInventory] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [itemName, setItemName] = useState('');
+  const [photoURL, setPhotoURL] = useState(''); // Add state for photo URL
+  const [user, setUser] = useState(null);
  
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(setUser);
     return () => unsubscribe();
   }, []);
  
-  const updateinventory = async () => {
-    const snapshot = query(collection(firestore, 'inventory'))
-    const docs = await getDocs(snapshot)
-    const inventorylist = []
-    docs.forEach((doc)=>{
-      inventorylist.push(
-        {
-          name:doc.id,
-          ...doc.data(),
-        }
-      )
-    })
-    setinventory(inventorylist)
-    setFilteredInventory(inventorylist)
-    console.log(inventorylist)
-  }
+  const updateInventory = async () => {
+    const snapshot = query(collection(firestore, 'inventory'));
+    const docs = await getDocs(snapshot);
+    const inventoryList = [];
+    docs.forEach((doc) => {
+      inventoryList.push({
+        name: doc.id,
+        ...doc.data(),
+      });
+    });
+    setInventory(inventoryList);
+    setFilteredInventory(inventoryList);
+    console.log(inventoryList);
+  };
  
-  const additem = async (item) => {
-    const docRef = doc(collection(firestore, 'inventory'), item)
-    const docSnap = await getDoc(docRef)
+  const addItem = async (item, photoURL) => {
+    const docRef = doc(collection(firestore, 'inventory'), item);
+    const docSnap = await getDoc(docRef);
  
-    if(docSnap.exists()){
-      const {quantity} = docSnap.data()
-      await setDoc(docRef, {quantity: quantity+1})
+    if (docSnap.exists()) {
+      const { quantity } = docSnap.data();
+      await setDoc(docRef, { quantity: quantity + 1, photoURL });
+    } else {
+      await setDoc(docRef, { quantity: 1, photoURL });
     }
-      
-    else{
-        await setDoc(docRef, {quantity:1})
-    }
-    await updateinventory()
-  }
-  
-  const removeitem = async (item) => {
-    const docRef = doc(collection(firestore, 'inventory'), item)
-    const docSnap = await getDoc(docRef)
+    await updateInventory();
+  };
  
-    if(docSnap.exists()){
-      const {quantity} = docSnap.data()
-      if(quantity===1){
-        await deleteDoc(docRef)
-      }
+  const removeItem = async (item) => {
+    const docRef = doc(collection(firestore, 'inventory'), item);
+    const docSnap = await getDoc(docRef);
  
-      else{
-        await setDoc(docRef, {quantity: quantity-1})
+    if (docSnap.exists()) {
+      const { quantity } = docSnap.data();
+      if (quantity === 1) {
+        await deleteDoc(docRef);
+      } else {
+        await setDoc(docRef, { quantity: quantity - 1 });
       }
     }
- 
-    await updateinventory()
-  }
+    await updateInventory();
+  };
  
   const handleSearchChange = (event) => {
     const query = event.target.value.toLowerCase();
-    setFilteredInventory(inventory.filter(item=> item.name.toLowerCase().includes(query)));
+    setFilteredInventory(inventory.filter(item => item.name.toLowerCase().includes(query)));
   };
  
-  useEffect (()=>{
-    updateinventory()
-  }, [])
+  useEffect(() => {
+    updateInventory();
+  }, []);
  
-  const handleOpen = () => setopen(true)
-  const handleClose = () => setopen(false)
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+ 
+  const handleUpload = (url) => {
+    setPhotoURL(url);
+  };
  
   return (
     <Box width="100vw" height="100vh" display="flex" flexDirection="column" alignItems="center" justifyContent="flex-start" bgcolor="#212121">
@@ -122,20 +119,23 @@ export default function Home() {
                 variant="outlined"
                 fullWidth
                 value={itemName}
-                onChange={(e) => setitemName(e.target.value)}
+                onChange={(e) => setItemName(e.target.value)}
               />
               <Button
                 variant="contained"
                 color="primary"
                 onClick={() => {
-                  additem(itemName);
-                  setitemName('');
+                  addItem(itemName, photoURL);
+                  setItemName('');
+                  setPhotoURL('');
                   handleClose();
                 }}
+                disabled={!photoURL} // Disable the button if no photo is uploaded
               >
                 Add
               </Button>
             </Stack>
+            <UploadPhoto onUpload={handleUpload} />
           </Box>
         </Modal>
         <Box border="1px solid #333" width="100%" mt={2}>
@@ -152,16 +152,17 @@ export default function Home() {
               <Typography variant="h6" width="20%" textAlign="center" color="#00e676">Edit</Typography>
             </Box>
             <Stack width="100%" spacing={2} overflow="auto" maxHeight="400px">
-              {filteredInventory.map(({ name, quantity }, index) => (
+              {filteredInventory.map(({ name, quantity, photoURL }, index) => (
                 <Box key={name} display="flex" justifyContent="space-between" alignItems="center" padding={1} borderBottom="1px solid #333">
                   <Typography variant="body1" width="20%" color="#00e676">{index + 1}</Typography>
                   <Typography variant="body1" width="40%" color="#00e676">{name.charAt(0).toUpperCase() + name.slice(1)}</Typography>
                   <Typography variant="body1" width="20%" textAlign="center" color="#00e676">{quantity}</Typography>
+                  {photoURL && <img src={photoURL} alt={name} width="50" />}
                   <Stack direction="row" spacing={1} width="20%" justifyContent="center">
-                    <Button variant="contained" color="primary" onClick={() => additem(name)}>
+                    <Button variant="contained" color="primary" onClick={() => addItem(name, photoURL)}>
                       Add
                     </Button>
-                    <Button variant="contained" color="primary" onClick={() => removeitem(name)}>
+                    <Button variant="contained" color="primary" onClick={() => removeItem(name)}>
                       Remove
                     </Button>
                   </Stack>
