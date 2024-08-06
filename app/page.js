@@ -5,7 +5,7 @@ import { Box, Modal, Typography, Stack, Button, TextField } from "@mui/material"
 import { collection, doc, getDoc, getDocs, query, setDoc, deleteDoc } from "firebase/firestore";
 import SearchAppBar from "./searchbar";
 import { auth } from "./firebase/firebaseconfig";
-import { signInWithGoogle, logOut } from "./authentication/auth";
+import { signInWithGoogle, logOut } from "./authentication/auth";  
 /*import { createTheme, ThemeProvider } from "@mui/material"*/
  
 /*const theme = createTheme()*/
