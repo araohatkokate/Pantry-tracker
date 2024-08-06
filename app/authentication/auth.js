@@ -1,8 +1,5 @@
-// auth.js
-import { auth, GoogleAuthProvider, signInWithPopup, signOut } from "@/app/firebase/firebaseconfig";
-
-/*const provider = new GoogleAuthProvider();*/
-
+import { auth, provider, signInWithPopup, signOut } from "./firebaseconfig";
+ 
 export const signInWithGoogle = async () => {
   try {
     const result = await signInWithPopup(auth, provider);
@@ -13,7 +10,7 @@ export const signInWithGoogle = async () => {
     console.error('Error during sign in: ', error.message);
   }
 };
-
+ 
 export const logOut = async () => {
   try {
     await signOut(auth);
