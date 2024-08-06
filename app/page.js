@@ -5,7 +5,7 @@ import { collection, doc, getDoc, getDocs, query, setDoc, deleteDoc } from "fire
 import SearchAppBar from "./searchbar";
 import { firestore } from "./firebase/firebaseconfig";
 import { auth } from "./firebase/firebaseconfig";
-import { signInWithGoogle, logOut } from "./auth";
+import { signInWithGoogle, logOut } from "./authentication/auth";
  
 export default function Home() {
   const [inventory, setInventory] = useState([]);
